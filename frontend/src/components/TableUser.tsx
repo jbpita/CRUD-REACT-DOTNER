@@ -34,6 +34,7 @@ const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
                         <tr 
                             key={index}
                             className='border border-solid'
+                            style={{ 'color': '#435370' }}
                         >
                             <td 
                                 className='text-justify px-6 py-6 text-slate-500'

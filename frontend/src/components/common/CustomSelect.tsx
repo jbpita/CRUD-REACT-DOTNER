@@ -4,7 +4,7 @@ import { AiFillCaretDown } from 'react-icons/ai'
 type CustomSelectProps<T extends { nombre: string }> = {
     placeholder: string,
     options: T[],
-    currentlyValue: (value: T) => void
+    currentlyValue?: (value: T) => void
 }
 
 function CustomSelect<T extends { nombre: string }>({placeholder,options,currentlyValue}: CustomSelectProps<T>) {
@@ -13,7 +13,7 @@ function CustomSelect<T extends { nombre: string }>({placeholder,options,current
   const [ open, setOpen ] = useState<boolean>(false)
 
   useEffect(() => {
-    currentlyValue(selected)
+    currentlyValue && currentlyValue(selected)
   }, [selected])
 
   return (

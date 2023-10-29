@@ -68,3 +68,15 @@ export interface APIRequestCargos {
     pageSize:   number;
     search:     string;
 }
+
+export interface APIRequestCrearUsuarios {
+    id:              number;
+    usuario:         string;
+    correo:          string;
+    primerNombre:    string;
+    segundoNombre:   string;
+    primerApellido:  string;
+    segundoApellido: string;
+    idCargo:         number;
+    idDepartamento:  number;
+}
