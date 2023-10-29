@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,caption {
+    background-color: #F3F4F6;
+}
+
+caption {
+    height: 3rem;
+    padding-top: 0.5rem;
+    padding-left: 1rem;
+    border: #F3F4F6;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px ;
+}
