@@ -15,7 +15,7 @@ const useCargosSelect = () => {
       const request = async () => {
         const responseDepartamentos = await HttpClient
           .post<PageTable<Cargo>,APIRequestCargos>(
-            '/Cargos/GetCargos',
+            '/Cargo/GetCargos',
             {
               pageNumber: 1,
               pageSize: 20,
