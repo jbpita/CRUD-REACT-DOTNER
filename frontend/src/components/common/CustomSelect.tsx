@@ -4,16 +4,22 @@ import { AiFillCaretDown } from 'react-icons/ai'
 type CustomSelectProps<T extends { nombre: string }> = {
     placeholder: string,
     options: T[],
+    newSelected?: T
     currentlyValue?: (value: T) => void
 }
 
-function CustomSelect<T extends { nombre: string }>({placeholder,options,currentlyValue}: CustomSelectProps<T>) {
+function CustomSelect<T extends { nombre: string }>({placeholder,options,currentlyValue,newSelected}: CustomSelectProps<T>) {
   
   const [ selected, setSelected ] = useState<T>({} as T)
   const [ open, setOpen ] = useState<boolean>(false)
 
   useEffect(() => {
+    setSelected(newSelected ?? {} as T)
+  }, [])
+
+  useEffect(() => {
     currentlyValue && currentlyValue(selected)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selected])
 
   return (

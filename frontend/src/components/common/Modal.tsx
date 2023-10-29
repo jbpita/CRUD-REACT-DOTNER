@@ -13,10 +13,6 @@ const Modal: React.FC<ModalProps> = ({title, children, show, setShow}) => {
     useEffect(() => {
         setIsOpenModal(show)
     }, [show])
-
-    // const openModal = () => {
-    //     setIsOpenModal(show);
-    // };
     
     const closeModal = () => {
       setIsOpenModal(false);

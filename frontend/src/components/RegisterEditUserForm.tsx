@@ -5,24 +5,52 @@ import { APIRequestCrearUsuarios, APIResponse, Cargo, Departamento, Usuario } fr
 import CustomSelect from "./common/CustomSelect"
 import { HttpClient } from "../Api/HttpClient";
 
+interface RegisterEditUserFormProps  {
+    id?: number
+    departamentoProp?: Departamento,
+    cargoProp?: Cargo,
+    emailProp?: string,
+    primerNombreProp?: string,
+    segundoNombreProp?: string,
+    primerApellidoProp?: string,
+    segundoApellidoProp?: string,
+    usuarioProp?: string
+}
 
-const RegisterEditUserForm = () => {
+const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
+    id = 0,
+    departamentoProp = {} as Departamento,
+    cargoProp = {} as Cargo,
+    emailProp = '',
+    primerNombreProp = '',
+    segundoNombreProp = '',
+    primerApellidoProp = '',
+    segundoApellidoProp = '',
+    usuarioProp = '',
+}) => {
     const { departamentos  } = useDepartamentosSelect()
     const { cargos } = useCargosSelect()
 
-    const [ departamento, setDepartamento ] = useState<Departamento>({} as Departamento)
-    const [ cargo, setCargo ] = useState<Cargo>({} as Cargo)
-    const [ usuario, setUsuario ] = useState<string>('')
-    const [ email, setEmail ] = useState<string>('')
-    const [ primerNombre, setPrimerNombre ] = useState<string>('')
-    const [ segundoNombre, setSegundoNombre ] = useState<string>('')
-    const [ primerApellido, setPrimerApellido ] = useState<string>('')
-    const [ segundoApellido, setSegundoApellido ] = useState<string>('')
+    const [ departamento, setDepartamento ] = useState<Departamento>(departamentoProp)
+    const [ cargo, setCargo ] = useState<Cargo>(cargoProp)
+    const [ usuario, setUsuario ] = useState<string>(usuarioProp)
+    const [ email, setEmail ] = useState<string>(emailProp)
+    const [ primerNombre, setPrimerNombre ] = useState<string>(primerNombreProp)
+    const [ segundoNombre, setSegundoNombre ] = useState<string>(segundoNombreProp)
+    const [ primerApellido, setPrimerApellido ] = useState<string>(primerApellidoProp)
+    const [ segundoApellido, setSegundoApellido ] = useState<string>(segundoApellidoProp)
     
 
     const onSubmit = async () => {
-        const response = await HttpClient.post<APIResponse<Usuario>,APIRequestCrearUsuarios>(
-            '/Usuario/createUsuario',
+        let url = '/Usuario/createUsuario'
+        let method = HttpClient.post
+        if ( id ){
+            url = '/Usuario/updateUsuario'
+            method = HttpClient.put
+        }
+        
+        const response = await method<APIResponse<Usuario>,APIRequestCrearUsuarios>(
+            url,
             {
                 correo: email,
                 primerNombre,
@@ -32,7 +60,7 @@ const RegisterEditUserForm = () => {
                 usuario,
                 idCargo: cargo.id,
                 idDepartamento: departamento.id,
-                id: 0
+                id
             }
         )
 
@@ -51,7 +79,8 @@ const RegisterEditUserForm = () => {
                         <CustomSelect<Departamento>
                             placeholder="Seleccione un Departamento"
                             options={departamentos}
-                            currentlyValue={setDepartamento}                            
+                            currentlyValue={setDepartamento}  
+                            newSelected={departamento}                          
                         />
                     </div>
                     <div>
@@ -62,6 +91,7 @@ const RegisterEditUserForm = () => {
                             placeholder="Seleccione un Cargo"
                             options={cargos}
                             currentlyValue={setCargo}
+                            newSelected={cargo} 
                         />
                     </div>
                 </div>
