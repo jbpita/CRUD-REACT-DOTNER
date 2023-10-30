@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import useModal from '../../hooks/useModal'
 
 type ModalProps = { 
     title: string
@@ -8,16 +9,11 @@ type ModalProps = {
 }
 
 const Modal: React.FC<ModalProps> = ({title, children, show, setShow}) => {
-    const [ isOpenModal, setIsOpenModal ] = useState<boolean>(false)
-    
-    useEffect(() => {
-        setIsOpenModal(show)
-    }, [show])
-    
-    const closeModal = () => {
-      setIsOpenModal(false);
-      setShow(false)
-    };
+   
+    const { isOpenModal,closeModal } = useModal({
+        setShow,
+        show
+    })
     
     return (
         <div>

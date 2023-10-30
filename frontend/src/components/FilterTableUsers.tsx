@@ -1,57 +1,19 @@
-import { useContext, useEffect, useState } from "react"
 import CustomSelect from "./common/CustomSelect"
-import { HttpClient } from "../Api/HttpClient"
-import { APIRequestCargos, Cargo, Departamento, PageTable } from '../interfaces/API';
-import { UserContext } from "../context/UserContext";
+import { Cargo, Departamento } from '../interfaces/API';
 import Modal from "./common/Modal";
 import RegisterEditUserForm from "./RegisterEditUserForm";
-
-
+import useFilterTableUsers from "../hooks/useFilterTableUsers";
 
 const FilterTableUsers = () => {
-  const [ departamentos, setDepartamentos ] = useState<Departamento[]>([])
-  const [ cargos, setCargos ] = useState<Departamento[]>([])
-  const [ show, setShow ] = useState<boolean>(false)
   
-
   const {
+    cargos,
+    departamentos,
+    setShow,
+    show,
     updateCurrentlyCargo,
     updateCurrentlyDepartamento
-  } = useContext(UserContext)
-
-  useEffect(() => {
-    const request = async () => {
-      const responseDepartamentos = await HttpClient
-        .post<PageTable<Departamento>,APIRequestCargos>(
-          '/Departamento/GetDepartamentos',
-          {
-            pageNumber: 1,
-            pageSize: 20,
-            search: ""
-          }
-        )
-
-      const responseCargos = await HttpClient
-        .post<PageTable<Cargo>,APIRequestCargos>(
-          '/Cargo/GetCargos',
-          {
-            pageNumber: 1,
-            pageSize: 20,
-            search: ""
-          }
-        )
-      
-      const { data: dataDepartamentos, succeeded: succeededDepartamentos } = responseDepartamentos
-      const { data: dataCargos, succeeded: succeededCargos } = responseCargos
-
-      if (succeededDepartamentos)
-        setDepartamentos(dataDepartamentos.items)
-      if (succeededCargos)
-        setCargos(dataCargos.items)
-    }
-    
-    request()
-  }, [])
+  } = useFilterTableUsers()
   
   return (
     <div className="mt-5 flex flex-col md:flex-row justify-between">

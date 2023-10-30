@@ -1,9 +1,6 @@
-import { useState } from "react";
-import useCargosSelect from "../hooks/useCargosSelect"
-import useDepartamentosSelect from "../hooks/useDepartamentosSelect"
-import { APIRequestCrearUsuarios, APIResponse, Cargo, Departamento, Usuario } from '../interfaces/API';
+import { Cargo, Departamento } from '../interfaces/API'
 import CustomSelect from "./common/CustomSelect"
-import { HttpClient } from "../Api/HttpClient";
+import useRegisterEditUserForm from "../hooks/useRegisterEditUserForm"
 
 interface RegisterEditUserFormProps  {
     id?: number
@@ -30,46 +27,40 @@ const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
     usuarioProp = '',
     setShow
 }) => {
-    const { departamentos  } = useDepartamentosSelect()
-    const { cargos } = useCargosSelect()
-
-    const [ departamento, setDepartamento ] = useState<Departamento>(departamentoProp)
-    const [ cargo, setCargo ] = useState<Cargo>(cargoProp)
-    const [ usuario, setUsuario ] = useState<string>(usuarioProp)
-    const [ email, setEmail ] = useState<string>(emailProp)
-    const [ primerNombre, setPrimerNombre ] = useState<string>(primerNombreProp)
-    const [ segundoNombre, setSegundoNombre ] = useState<string>(segundoNombreProp)
-    const [ primerApellido, setPrimerApellido ] = useState<string>(primerApellidoProp)
-    const [ segundoApellido, setSegundoApellido ] = useState<string>(segundoApellidoProp)
     
-    const closeModal = () => setShow && setShow(false)
-
-    const onSubmit = async () => {
-        let url = '/Usuario/createUsuario'
-        let method = HttpClient.post
-        if ( id ){
-            url = '/Usuario/updateUsuario'
-            method = HttpClient.put
-        }
-        
-        const response = await method<APIResponse<Usuario>,APIRequestCrearUsuarios>(
-            url,
-            {
-                correo: email,
-                primerNombre,
-                segundoApellido,
-                primerApellido,
-                segundoNombre,
-                usuario,
-                idCargo: cargo.id,
-                idDepartamento: departamento.id,
-                id
-            }
-        )
-
-        console.log('response:', response)
-
-    }
+    const { 
+        departamentos,
+        setDepartamento,
+        departamento,
+        cargo,
+        cargos,
+        setCargo,
+        usuario,
+        setUsuario,
+        primerNombre,
+        setPrimerNombre,
+        segundoApellido,
+        segundoNombre,
+        primerApellido,
+        setPrimerApellido,
+        setSegundoApellido,
+        setSegundoNombre,
+        setEmail,
+        email,
+        closeModal,
+        onSubmit
+    } = useRegisterEditUserForm({
+        id,
+        departamentoProp,
+        cargoProp,
+        emailProp,
+        primerNombreProp,
+        segundoNombreProp,
+        primerApellidoProp,
+        segundoApellidoProp,
+        usuarioProp,
+        setShow
+    })
 
     return (
         <div>
