@@ -86,7 +86,9 @@ const FilterTableUsers = () => {
             show={show}
             setShow={setShow}
           >
-            <RegisterEditUserForm/>
+            <RegisterEditUserForm
+              setShow={setShow}
+            />
           </Modal>
         </div>
     </div>

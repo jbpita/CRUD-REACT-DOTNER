@@ -15,6 +15,7 @@ interface RegisterEditUserFormProps  {
     primerApellidoProp?: string,
     segundoApellidoProp?: string,
     usuarioProp?: string
+    setShow?: (value: boolean) => void
 }
 
 const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
@@ -27,6 +28,7 @@ const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
     primerApellidoProp = '',
     segundoApellidoProp = '',
     usuarioProp = '',
+    setShow
 }) => {
     const { departamentos  } = useDepartamentosSelect()
     const { cargos } = useCargosSelect()
@@ -40,6 +42,7 @@ const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
     const [ primerApellido, setPrimerApellido ] = useState<string>(primerApellidoProp)
     const [ segundoApellido, setSegundoApellido ] = useState<string>(segundoApellidoProp)
     
+    const closeModal = () => setShow && setShow(false)
 
     const onSubmit = async () => {
         let url = '/Usuario/createUsuario'
@@ -159,6 +162,7 @@ const RegisterEditUserForm: React.FC<RegisterEditUserFormProps> = ({
                         Registrar
                     </button>
                     <button
+                        onClick={() =>  closeModal()}
                         style={{'backgroundColor': '#DFE1E5', 'color': '#42526E'}}
                         className="px-4 bg-blue-500 p-3 rounded text-white hover:bg-blue-400"
                     >

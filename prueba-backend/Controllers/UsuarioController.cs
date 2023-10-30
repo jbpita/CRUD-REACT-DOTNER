@@ -117,7 +117,7 @@ namespace prueba_backend.Controllers
             return Ok(rp);
         }
 
-        [HttpPut("DeleteUsuario")]
+        [HttpPost("DeleteUsuario")]
         public async Task<ActionResult<int>> DeleteUsuario(Usuario usuario)
         {
             ApiResponse<int> rp;

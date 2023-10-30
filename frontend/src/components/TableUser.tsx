@@ -1,9 +1,10 @@
 import { FaEdit } from 'react-icons/fa'
 import { RiDeleteBin5Line } from 'react-icons/ri'
-import { Usuario } from "../interfaces/API"
+import { Usuario } from '../interfaces/API';
 import Modal from './common/Modal'
 import RegisterEditUserForm from './RegisterEditUserForm'
 import { useState } from 'react'
+import DeleteUser from './DeleteUser';
 
 type TableUserProps = {
     columns: string[],
@@ -11,7 +12,8 @@ type TableUserProps = {
 }
 
 const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
-    const [ show, setShow ] = useState<boolean>(false)
+    const [ showEdit, setShowEdit ] = useState<boolean>(false)
+    const [ showDelete, setShowDelete ] = useState<boolean>(false)
     const [ row, setRow] = useState<Usuario>({} as Usuario)
 
     return (
@@ -77,7 +79,7 @@ const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
                                         <button
                                             onClick={() => {
                                                 setRow(row)
-                                                setShow(!show)
+                                                setShowEdit(!showEdit)
                                             }}
                                             className="flex items-center space-x-1 text-green-600 hover:text-green-800 focus:outline-none"
                                         >
@@ -88,7 +90,11 @@ const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
                                             <span>Editar</span>
                                         </button>
 
-                                        <button 
+                                        <button
+                                            onClick={() => {
+                                                setRow(row)
+                                                setShowDelete(!showDelete)
+                                            }}
                                             className="flex items-center space-x-1 text-red-600 hover:text-red-800 focus:outline-none"
                                         >
                                             <RiDeleteBin5Line
@@ -106,8 +112,8 @@ const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
             </table>
             <Modal
                 title="Editar Usuario"
-                show={show}
-                setShow={setShow}
+                show={showEdit}
+                setShow={setShowEdit}
             >
                 <RegisterEditUserForm
                     id={row.id}
@@ -119,6 +125,17 @@ const TableUser: React.FC<TableUserProps> = ({ columns, rows}) => {
                     primerNombreProp={row.primerNombre}
                     segundoApellidoProp={row.segundoApellido}
                     segundoNombreProp={row.segundoNombre}
+                    setShow={setShowEdit}
+                />
+            </Modal>
+            <Modal
+                title=""
+                show={showDelete}
+                setShow={setShowDelete}
+            >
+                <DeleteUser
+                    usuario={row}
+                    setShow={setShowDelete}
                 />
             </Modal>
         </div>
